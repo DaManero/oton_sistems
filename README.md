@@ -1,36 +1,85 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Oton Sistems
 
-## Getting Started
+Oton Sistems es un sistema de gestión integral para cafeterías. Este repositorio contiene el scaffold base para construir los módulos operativos principales sobre Next.js + Supabase.
 
-First, run the development server:
+## Objetivo del sistema
+Centralizar en una única plataforma:
+- Punto de venta (POS)
+- Pantalla de cocina/barra (KDS)
+- Gestión de menú
+- Caja y turnos
+- Carta digital con QR
+- Inventario y automatizaciones (reportes por Telegram, alertas, etc.)
 
+## Roadmap de módulos
+- [x] Scaffold base (Next.js + TypeScript + Tailwind + Supabase)
+- [ ] POS: creación y cobro de pedidos
+- [ ] KDS en tiempo real para barra/cocina
+- [ ] ABM de categorías, productos, variantes y modificadores
+- [ ] Caja: apertura/cierre y arqueo
+- [ ] Carta pública QR
+- [ ] Inventario por recetas e insumos
+- [ ] Automatizaciones (reportes diarios, alertas operativas)
+
+## Stack técnico
+- **Frontend**: Next.js (App Router), TypeScript, Tailwind CSS
+- **Backend/DB**: Supabase (Postgres, Auth, Realtime)
+- **Calidad**: ESLint + Prettier
+- **Package manager**: npm
+
+## Requisitos
+- Node.js 20+
+- npm 10+
+- [Supabase CLI](https://supabase.com/docs/guides/cli)
+- Docker (requerido por Supabase CLI local)
+
+## Levantar el proyecto en local
+1. Instalar dependencias:
+   ```bash
+   npm install
+   ```
+2. Configurar variables de entorno:
+   ```bash
+   cp .env.example .env.local
+   ```
+3. Iniciar Supabase local:
+   ```bash
+   supabase start
+   supabase db reset
+   ```
+4. Ejecutar la app:
+   ```bash
+   npm run dev
+   ```
+5. Abrir [http://localhost:3000](http://localhost:3000)
+
+## Checks de calidad
+Ejecutar antes de abrir PR:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run lint
+npm run typecheck
+npm run build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Estructura de carpetas
+```text
+.
+├── .github/
+│   ├── copilot-instructions.md
+│   └── workflows/ci.yml
+├── src/
+│   ├── app/
+│   ├── lib/supabase/
+│   └── types/
+├── supabase/
+│   ├── migrations/0001_initial_schema.sql
+│   └── seed.sql
+├── .env.example
+└── README.md
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Contribución (flujo recomendado)
+1. Crear un issue claro y acotado.
+2. Asignar el issue al cloud agent (`@copilot`).
+3. Revisar el PR generado, pedir ajustes y validar checks.
+4. Mergear cuando lint, typecheck y build estén en verde.
