@@ -20,7 +20,8 @@
     "jsonwebtoken": "^9.0.2",
     "zod": "^4.1.11",
     "@oton/shared": "*",
-    "express-rate-limit": "^8.1.0"
+    "express-rate-limit": "^8.1.0",
+    "bcryptjs": "^3.0.2"
   },
   "devDependencies": {
     "@types/cors": "^2.8.19",

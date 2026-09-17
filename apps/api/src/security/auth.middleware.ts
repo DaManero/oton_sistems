@@ -11,12 +11,14 @@ export const authenticate = (
   res: Response,
   next: NextFunction,
 ): void => {
-  const token = req.headers.authorization?.replace("Bearer ", "")
+  const authorizationHeader = req.headers.authorization
 
-  if (!token) {
-    res.status(401).json({ message: "Token no proporcionado" })
+  if (!authorizationHeader?.startsWith("Bearer ")) {
+    res.status(401).json({ message: "Token no proporcionado o formato inválido" })
     return
   }
+
+  const token = authorizationHeader.slice("Bearer ".length)
 
   try {
     const decoded = jwt.verify(token, env.JWT_SECRET)

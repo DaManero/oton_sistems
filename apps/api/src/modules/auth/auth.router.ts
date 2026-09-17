@@ -20,7 +20,7 @@ const authRateLimiter = rateLimit({
 export const createAuthRouter = (): Router => {
   const router = Router()
 
-  router.post("/login", authRateLimiter, (req, res) => {
+  router.post("/login", authRateLimiter, async (req, res) => {
     const parsed = loginSchema.safeParse(req.body)
 
     if (!parsed.success) {
@@ -31,7 +31,7 @@ export const createAuthRouter = (): Router => {
       return
     }
 
-    const authResult = authenticateUser(parsed.data.email, parsed.data.password)
+    const authResult = await authenticateUser(parsed.data.email, parsed.data.password)
 
     if (!authResult) {
       res.status(401).json({ message: "Usuario o contraseña incorrectos" })
