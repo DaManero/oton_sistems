@@ -80,7 +80,7 @@ npm install
 2. Configurar variables de entorno del backend:
 
 ```bash
-cp /home/runner/work/oton_sistems/oton_sistems/apps/api/.env.example /home/runner/work/oton_sistems/oton_sistems/apps/api/.env
+cp apps/api/.env.example apps/api/.env
 ```
 
 3. Ajustar en `apps/api/.env`:

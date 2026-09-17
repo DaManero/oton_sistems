@@ -1,5 +1,5 @@
 import type { NextFunction, Response } from "express"
-import type { AppRole } from "../types/app-role.js"
+import type { AppRole } from "@oton/shared"
 import type { AuthenticatedRequest } from "./auth.middleware.js"
 
 export const authorizeRoles = (allowedRoles: AppRole[]) => {

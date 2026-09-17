@@ -3,7 +3,7 @@ import jwt, { type JwtPayload } from "jsonwebtoken"
 import { env } from "../config/env.js"
 
 export type AuthenticatedRequest = Request & {
-  user?: JwtPayload & { role?: string; email?: string; sub?: string }
+  user?: JwtPayload & { role?: string; email?: string; sub?: string; name?: string }
 }
 
 export const authenticate = (
@@ -19,7 +19,14 @@ export const authenticate = (
   }
 
   try {
-    req.user = jwt.verify(token, env.JWT_SECRET) as JwtPayload
+    const decoded = jwt.verify(token, env.JWT_SECRET)
+
+    if (typeof decoded === "string") {
+      res.status(401).json({ message: "Token inválido" })
+      return
+    }
+
+    req.user = decoded
     next()
   } catch {
     res.status(401).json({ message: "Token inválido" })

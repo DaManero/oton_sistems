@@ -34,21 +34,25 @@ function App() {
   const onSubmit = async (event: FormEvent) => {
     event.preventDefault()
 
-    const response = await fetch("/api/v1/auth/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email, password }),
-    })
+    try {
+      const response = await fetch("/api/v1/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      })
 
-    if (!response.ok) {
-      setMessage("No se pudo iniciar sesión. Revisa credenciales y API.")
-      return
+      if (!response.ok) {
+        setMessage("No se pudo iniciar sesión. Revisa credenciales y API.")
+        return
+      }
+
+      const payload = (await response.json()) as { user: { name: string; role: string } }
+      setMessage(`Sesión iniciada como ${payload.user.name} (${payload.user.role}).`)
+    } catch {
+      setMessage("No hay conexión con la API. Verifica que el backend esté en ejecución.")
     }
-
-    const payload = (await response.json()) as { user: { name: string; role: string } }
-    setMessage(`Sesión iniciada como ${payload.user.name} (${payload.user.role}).`)
   }
 
   return (

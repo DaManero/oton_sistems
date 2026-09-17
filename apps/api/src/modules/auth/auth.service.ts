@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken"
-import type { AppRole } from "../../types/app-role.js"
+import type { AppRole } from "@oton/shared"
 import { env } from "../../config/env.js"
 
 type SeedUser = {
