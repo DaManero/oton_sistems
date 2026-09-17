@@ -22,7 +22,16 @@ const seedUserSchema = z.object({
 
 const seedUsersSchema = z.array(seedUserSchema)
 
-const seedUsers: SeedUser[] = seedUsersSchema.parse(JSON.parse(env.AUTH_SEED_USERS_JSON))
+const parseSeedUsersInput = (rawValue: string): SeedUser[] => {
+  if (!rawValue.trim()) {
+    return []
+  }
+
+  const parsed = JSON.parse(rawValue)
+  return seedUsersSchema.parse(Array.isArray(parsed) ? parsed : [parsed])
+}
+
+const seedUsers = parseSeedUsersInput(env.AUTH_SEED_USERS_JSON)
 
 export const authenticateUser = async (email: string, password: string) => {
   const user = seedUsers.find((candidate) => candidate.email === email)

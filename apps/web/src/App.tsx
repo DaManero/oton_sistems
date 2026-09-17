@@ -11,7 +11,7 @@ type ModuleCard = {
 const moduleCards: ModuleCard[] = [
   { id: "pos", name: "POS", description: "Punto de venta para pedidos y cobro." },
   { id: "kds", name: "KDS", description: "Pantalla de cocina/barra para preparación." },
-  { id: "menu", name: "Gestión de menú", description: "Catálogo y precios de productos." },
+  { id: "menu-management", name: "Gestión de menú", description: "Catálogo y precios de productos." },
   { id: "cash-register", name: "Caja", description: "Apertura, cierres y movimientos de caja." },
   {
     id: "digital-menu-qr",
