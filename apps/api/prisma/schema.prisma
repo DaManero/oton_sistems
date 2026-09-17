@@ -1,0 +1,69 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  MANAGER
+  CASHIER
+  BARISTA
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String
+  passwordHash String
+  role         Role
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model MenuCategory {
+  id          String    @id @default(cuid())
+  name        String
+  description String?
+  products    Product[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Product {
+  id             String        @id @default(cuid())
+  sku            String        @unique
+  name           String
+  description    String?
+  basePriceCents Int
+  isActive       Boolean       @default(true)
+  categoryId     String
+  category       MenuCategory  @relation(fields: [categoryId], references: [id])
+  inventoryItem  InventoryItem?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+}
+
+model InventoryItem {
+  id                 String          @id @default(cuid())
+  productId          String          @unique
+  product            Product         @relation(fields: [productId], references: [id])
+  stockUnits         Decimal         @db.Decimal(10, 2)
+  minimumStockUnits  Decimal         @db.Decimal(10, 2)
+  unit               String
+  stockMovements     StockMovement[]
+  createdAt          DateTime        @default(now())
+  updatedAt          DateTime        @updatedAt
+}
+
+model StockMovement {
+  id              String        @id @default(cuid())
+  inventoryItemId String
+  inventoryItem   InventoryItem @relation(fields: [inventoryItemId], references: [id])
+  changeUnits     Decimal       @db.Decimal(10, 2)
+  reason          String
+  createdAt       DateTime      @default(now())
+}

@@ -1,0 +1,23 @@
+{
+  "name": "oton-sistems",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Sistema de gestión integral para cafeterías.",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspaces --if-present",
+    "dev:web": "npm run dev -w @oton/web",
+    "dev:api": "npm run dev -w @oton/api",
+    "build": "npm run build --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "db:generate": "npm run db:generate -w @oton/api",
+    "db:migrate": "npm run db:migrate -w @oton/api"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
