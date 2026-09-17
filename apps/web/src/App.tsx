@@ -8,10 +8,21 @@ type ModuleCard = {
   description: string
 }
 
+type LoginResponse = {
+  user?: {
+    name?: string
+    role?: string
+  }
+}
+
 const moduleCards: ModuleCard[] = [
   { id: "pos", name: "POS", description: "Punto de venta para pedidos y cobro." },
   { id: "kds", name: "KDS", description: "Pantalla de cocina/barra para preparación." },
-  { id: "menu-management", name: "Gestión de menú", description: "Catálogo y precios de productos." },
+  {
+    id: "menu-management",
+    name: "Gestión de menú",
+    description: "Catálogo y precios de productos.",
+  },
   { id: "cash-register", name: "Caja", description: "Apertura, cierres y movimientos de caja." },
   {
     id: "digital-menu-qr",
@@ -48,8 +59,16 @@ function App() {
         return
       }
 
-      const payload = (await response.json()) as { user: { name: string; role: string } }
-      setMessage(`Sesión iniciada como ${payload.user.name} (${payload.user.role}).`)
+      const payload = (await response.json()) as LoginResponse
+      const name = payload.user?.name
+      const role = payload.user?.role
+
+      if (!name || !role) {
+        setMessage("La API respondió sin el formato esperado de usuario autenticado.")
+        return
+      }
+
+      setMessage(`Sesión iniciada como ${name} (${role}).`)
     } catch {
       setMessage("No hay conexión con la API. Verifica que el backend esté en ejecución.")
     }
