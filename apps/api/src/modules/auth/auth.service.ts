@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken"
+import { z } from "zod"
 import type { AppRole } from "@oton/shared"
 import { env } from "../../config/env.js"
 
@@ -10,22 +11,17 @@ type SeedUser = {
   name: string
 }
 
-const seedUsers: SeedUser[] = [
-  {
-    id: "usr_admin_001",
-    email: "admin@oton.local",
-    password: "admin1234",
-    role: "ADMIN",
-    name: "Administrador Oton",
-  },
-  {
-    id: "usr_cashier_001",
-    email: "caja@oton.local",
-    password: "cashier1234",
-    role: "CASHIER",
-    name: "Caja Principal",
-  },
-]
+const seedUserSchema = z.object({
+  id: z.string().min(3),
+  email: z.string().email(),
+  password: z.string().min(8),
+  role: z.enum(["ADMIN", "MANAGER", "CASHIER", "BARISTA"]),
+  name: z.string().min(2),
+})
+
+const seedUsersSchema = z.array(seedUserSchema)
+
+const seedUsers: SeedUser[] = seedUsersSchema.parse(JSON.parse(env.AUTH_SEED_USERS_JSON))
 
 export const authenticateUser = (email: string, password: string) => {
   const user = seedUsers.find((candidate) => candidate.email === email)

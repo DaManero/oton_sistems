@@ -1,10 +1,16 @@
 import { Router } from "express"
+import rateLimit from "express-rate-limit"
 import { authorizeRoles } from "../security/role.middleware.js"
 import { authenticate } from "../security/auth.middleware.js"
-import { createRateLimiter } from "../security/rate-limit.middleware.js"
 import type { AppRole } from "@oton/shared"
 
-const moduleRateLimiter = createRateLimiter({ windowMs: 60_000, maxRequests: 60 })
+const moduleRateLimiter = rateLimit({
+  windowMs: 60_000,
+  max: 60,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { message: "Demasiadas solicitudes. Intenta nuevamente en unos segundos." },
+})
 
 export const createModuleRouter = (moduleId: string, allowedRoles: AppRole[]) => {
   const router = Router()

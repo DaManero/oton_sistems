@@ -1,15 +1,21 @@
 import { Router } from "express"
+import rateLimit from "express-rate-limit"
 import { z } from "zod"
 import { authenticateUser } from "./auth.service.js"
 import { authenticate, type AuthenticatedRequest } from "../../security/auth.middleware.js"
-import { createRateLimiter } from "../../security/rate-limit.middleware.js"
 
 const loginSchema = z.object({
   email: z.string().email(),
   password: z.string().min(6),
 })
 
-const authRateLimiter = createRateLimiter({ windowMs: 60_000, maxRequests: 10 })
+const authRateLimiter = rateLimit({
+  windowMs: 60_000,
+  max: 10,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { message: "Demasiadas solicitudes. Intenta nuevamente en unos segundos." },
+})
 
 export const createAuthRouter = (): Router => {
   const router = Router()

@@ -27,8 +27,8 @@ const moduleCards: ModuleCard[] = [
 ]
 
 function App() {
-  const [email, setEmail] = useState("admin@oton.local")
-  const [password, setPassword] = useState("admin1234")
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
   const [message, setMessage] = useState("")
 
   const onSubmit = async (event: FormEvent) => {
